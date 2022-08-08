@@ -3,7 +3,6 @@ The CashScript Playground is a way to write CashScript contracts and immediately
 
 In the left panel you can write CashScript contracts and comple them. After compiling, a form is generated to create a new instance of this CashScript contract. It will then display some information about the contract and generate new forms to call contract functions to send BCH transactions.
 
-A live demo is available at https://playground.cashscript.org/.
 
 ## Limitations
 No special transaction options such as OP_RETURN or hardcoded fees are supported by the playground. The CashScript Playground is not meant to be the main solution to write and use CashScript contracts, but instead is is meant to be a quick and easy way to try it out.
