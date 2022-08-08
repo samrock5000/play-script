@@ -47,8 +47,8 @@
     "bootstrap": "^4.5.2",
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
-    "cashc": "^0.7.0",
-    "cashscript": "^0.7.0",
+    "cashc": "^0.6.5",
+    "cashscript": "^0.6.5",
     "css-loader": "3.4.2",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
@@ -95,7 +95,8 @@
     "webpack": "4.41.5",
     "webpack-dev-server": "3.10.2",
     "webpack-manifest-plugin": "2.2.0",
-    "workbox-webpack-plugin": "4.3.1"
+    "workbox-webpack-plugin": "4.3.1",
+    "@sambo5000/xec-js":"6.0.2"
   },
   "devDependencies": {
     "@types/marked": "^0.7.2",

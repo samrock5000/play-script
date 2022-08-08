@@ -34,7 +34,8 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network, wallets }) 
     <InputGroup>
       {input.type==='sig'? (
       <><Form.Control size="sm" id={`${input.name}-parameter-${i}`} disabled
-        placeholder={`${input.type} ${input.name}`}
+        autoComplete="off"
+        placeholder={`${input.type} ${input.name}`} //sigData
         aria-label={`${input.type} ${input.name}`}
       />
       <Form.Control as="select" size="sm" onChange={event =>fillPrivKey(i,event.target.value)}>
@@ -91,8 +92,8 @@ const ContractFunction: React.FC<Props> = ({ contract, abi, network, wallets }) 
         .to(outputs)
         .send()
 
-      alert(`Transaction successfully sent: ${ExplorerString[network]}/tx/${txid}`)
-      console.log(`Transaction successfully sent: ${ExplorerString[network]}/tx/${txid}`)
+      alert(`Transaction successfully sent: ${ExplorerString[network]}${txid}`)
+      console.log(`Transaction successfully sent: ${ExplorerString[network]}${txid}`)
     } catch (e) {
       alert(e.message)
       console.error(e.message)

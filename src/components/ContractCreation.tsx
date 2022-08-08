@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Artifact, Contract, Argument, Network, ElectrumNetworkProvider } from 'cashscript'
+import { Artifact, Contract, Argument, Network, FullStackNetworkProvider } from 'cashscript'
+// import { Artifact, Contract, Argument, Network, ElectrumNetworkProvider } from 'cashscript'
 import { InputGroup, Form, Button } from 'react-bootstrap'
 import { QRFunc } from 'react-qrbtf'
 import { readAsType } from './shared'
+// const BCHJS = require('../xec-js/bch-js')
+const BCHJS = require('@sambo5000/xec-js')
+const bchjs = new BCHJS()
 
 interface Props {
   artifact?: Artifact
@@ -39,14 +43,26 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, ne
     updateBalance()
   }, [contract])
 
-  const inputFields = artifact?.constructorInputs.map((input, i) => (
+ 
+
+  const inputFields = artifact?.constructorInputs.map((input, i) => (  
     <Form.Control size="sm" id={`constructor-arg-${i}`}
-      placeholder={`${input.type} ${input.name}`}
+      autoComplete="off"
+      // placeholder={`${input.type} ${input.name}`}
+      placeholder={`${input.name}`}
       aria-label={`${input.type} ${input.name}`}
+      
       onChange={(event) => {
+        // const argsCopy = [...args]
         const argsCopy = [...args]
         argsCopy[i] = readAsType(event.target.value, input.type)
+        //arbiterPkH,sellerPkH, 
+        
+        // argsCopy.shift()       
+        // argsCopy.unshift(arbiterPkH)
         setArgs(argsCopy)
+        
+        // console.log(argsCopy)
       }}
     />
   )) || []
@@ -68,6 +84,7 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, ne
 
   const constructorForm = artifact &&
     (<InputGroup size="sm">
+      {/* {inputFields.slice(1)} */}
       {inputFields}
       {networkSelector}
       <InputGroup.Append>
@@ -78,7 +95,9 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, ne
   function createContract() {
     if (!artifact) return
     try {
-      const provider = new ElectrumNetworkProvider(network)
+      const provider = new FullStackNetworkProvider("mainnet", bchjs)
+      // const provider = new ElectrumNetworkProvider("mainnet")
+      console.log(args)
       const newContract = new Contract(artifact, args, provider)
       setContract(newContract)
     } catch (e) {
@@ -99,13 +118,21 @@ const ContractCreation: React.FC<Props> = ({ artifact, contract, setContract, ne
       padding: '8px 16px',
       color: '#000'
     }}>
-      <h2>{artifact?.contractName} <button onClick={() => setShowWallets(true)} style={{float:'right', border:'none', backgroundColor: 'transparent',outline: 'none'}}>⇆</button></h2>
+      <h2>{`${artifact?.contractName} Contract`} 
+      <button onClick={() => setShowWallets(true)} style={{
+        float:'right', 
+        border:'none', 
+        backgroundColor: 'transparent',
+        outline: 'none'}}>⇆</button>
+        </h2>
+        {/* {tipTotal} */}
       {constructorForm}
       {contract !==  undefined && balance !== undefined &&
         <div style={{ margin: '5px', width: '100%' }}>
           <div style={{ float: 'left', width: '70%' }}>
             <strong>Contract address</strong>
-            <p>{contract.address}</p>
+            {/* <p>{contract.address}</p> */}
+            <p>{bchjs.Address.toEcashAddress(contract.address)}</p>
             <strong>Contract balance</strong>
             <p>{balance} satoshis</p>
             <strong>Bytecode size</strong>

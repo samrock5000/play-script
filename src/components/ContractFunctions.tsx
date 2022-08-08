@@ -11,10 +11,10 @@ interface Props {
 }
 
 const ContractFunctions: React.FC<Props> = ({ artifact, contract, network, wallets }) => {
-  const functions = artifact?.abi.map(func => (
+  const functions = artifact?.abi.map(func => (   
     <ContractFunction contract={contract} abi={func} network={network} wallets={wallets}/>
   ))
-
+  
   return (
     <div style={{
       height: '100%',

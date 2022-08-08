@@ -6,24 +6,19 @@ import Editor from './Editor';
 import ContractInfo from './ContractInfo';
 import WalletInfo from './Wallets';
 
-interface Props {}
+interface Props { }
 
 const Main: React.FC<Props> = () => {
   const [code, setCode] = useState<string>(
-`pragma cashscript ^0.7.0;
+    `pragma cashscript ^0.6.5;
 
-contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
-    // Require recipient's signature to match
-    function transfer(sig recipientSig) {
-        require(checkSig(recipientSig, recipient));
+    contract P2PKH(bytes20 pkh) {
+        // Require pk to match stored pkh and signature to match
+        function spend(pubkey pk, sig s) {
+            require(hash160(pk) == pkh);
+            require(checkSig(s, pk));
+        }
     }
-
-    // Require timeout time to be reached and sender's signature to match
-    function timeout(sig senderSig) {
-        require(checkSig(senderSig, sender));
-        require(tx.time >= timeout);
-    }
-}
 `);
 
   const [artifact, setArtifact] = useState<Artifact | undefined>(undefined);
@@ -52,8 +47,8 @@ contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
       height: 'calc(100vh - 120px'
     }}>
       <Editor code={code} setCode={setCode} compile={compile} />
-      <WalletInfo style={!showWallets?{display:'none'}:{}} network={network} setShowWallets={setShowWallets} wallets={wallets} setWallets={setWallets}/>
-      <ContractInfo style={showWallets?{display:'none'}:{}} artifact={artifact} network={network} setNetwork={setNetwork} setShowWallets={setShowWallets} wallets={wallets}/>
+      <WalletInfo style={!showWallets ? { display: 'none' } : {}} network={network} setShowWallets={setShowWallets} wallets={wallets} setWallets={setWallets} />
+      <ContractInfo style={showWallets ? { display: 'none' } : {}} artifact={artifact} network={network} setNetwork={setNetwork} setShowWallets={setShowWallets} wallets={wallets} />
     </RowFlex>
   )
 }
