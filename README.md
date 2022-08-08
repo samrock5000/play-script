@@ -1,4 +1,4 @@
-# CashScript Playground
+# FORK of CashScript Playground for eCash
 The CashScript Playground is a way to write CashScript contracts and immediately interact with them in the browser. It is inspired by Ethereum's Remix, but slightly less feature-rich.
 
 In the left panel you can write CashScript contracts and comple them. After compiling, a form is generated to create a new instance of this CashScript contract. It will then display some information about the contract and generate new forms to call contract functions to send BCH transactions.
